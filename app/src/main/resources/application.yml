@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/ticketSystemDB
+    username: root
+    password: toor
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        default_schema: public
+
+logging:
+  level:
+    ROOT: INFO
+    com.app: DEBUG
+
+server:
+  port: 8081
+
+

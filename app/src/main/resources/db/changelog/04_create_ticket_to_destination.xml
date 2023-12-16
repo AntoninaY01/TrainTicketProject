@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="create_ticket_2_destination_sequence_generator" author="livanov">
+        <createSequence sequenceName="create_ticket_2_destination_sequence_generator"
+                        startValue="1000"
+                        incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="create_table_ticket_2_destination" author="livanov">
+        <createTable tableName="ticket_2_destination">
+            <column name="id" type="bigint" defaultValueComputed="nextval('create_ticket_2_destination_sequence_generator'::regclass)">
+                <constraints primaryKey="true"/>
+            </column>
+
+            <column name="ticket_id" type="bigint"/>
+            <column name="destination_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add_fkc_ticket_2_destination_ticket" author="livanov">
+        <addForeignKeyConstraint baseTableName="ticket_2_destination" baseColumnNames="ticket_id"
+                                 constraintName="fkc_ticket_2_destination_ticket"
+                                 referencedTableName="ticket" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="add_fkc_ticket_2_destination_destination" author="livanov">
+        <addForeignKeyConstraint baseTableName="ticket_2_destination" baseColumnNames="destination_id"
+                                 constraintName="fkc_ticket_2_destination_destination"
+                                 referencedTableName="destination" referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

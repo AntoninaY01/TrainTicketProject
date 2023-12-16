@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="create_table_ticket" author="livanov">
+        <createTable tableName="ticket">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+
+            <column name="user_id" type="bigint"/>
+            <column name="price" type="decimal"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add_column_status_ticket_table" author="livanov">
+        <addColumn tableName="ticket">
+            <column name="status" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="add_column_time_ticket_table" author="livanov">
+        <addColumn tableName="ticket">
+            <column name="time" type="varchar(16)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="add_column_with_child_ticket_table" author="livanov">
+        <addColumn tableName="ticket">
+            <column name="withChild" type="boolean"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="drop_column_withChild_type_user_table" author="livanov">
+        <dropColumn tableName="ticket" columnName="withChild"/>
+    </changeSet>
+
+    <changeSet id="add_column_with_child_ticket_table1" author="livanov">
+        <addColumn tableName="ticket">
+            <column name="with_child" type="boolean"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="add_fk_constraint_user_id_ticket" author="livanov">
+        <addForeignKeyConstraint baseTableName="ticket" baseColumnNames="user_id"
+                                 constraintName="fkc_user_ticket"
+                                 referencedTableName="user" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="ticket_sequence_generator" author="livanov">
+        <createSequence sequenceName="ticket_sequence_generator"
+                        startValue="1000"
+                        incrementBy="1"/>
+    </changeSet>
+</databaseChangeLog>

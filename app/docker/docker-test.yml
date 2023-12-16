@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+
+  ticketing-db-test:
+    image: postgres:14.1
+    container_name: ticketing-db-test
+    restart: always
+    volumes:
+      - ticketing-db:/data/lib
+    environment:
+      - POSTGRES_DB=ticketSystemDB
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=toor
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - '5434:5432'
+
+volumes:
+  ticketing-db:
