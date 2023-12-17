@@ -160,7 +160,7 @@ public class BookingServiceT {
 
     @Test
     void getPriceForSeniorNoChildDuringPeakHours(){
-        UserDTO userDTO = createUser(PassengerType.OVER_60, 65);
+        UserDTO userDTO = createUser(PassengerType.OVER_60, 70);
         Mockito.when(userService.getOne(anyLong())).thenReturn(userDTO);
 
         DestinationDTO firstDestination = createDestination("Balchik");
@@ -182,7 +182,7 @@ public class BookingServiceT {
 
     @Test
     void getPriceForSeniorNoChildDuringRegularHours(){
-        UserDTO userDTO = createUser(PassengerType.OVER_60, 65);
+        UserDTO userDTO = createUser(PassengerType.OVER_60, 70);
         Mockito.when(userService.getOne(anyLong())).thenReturn(userDTO);
 
         DestinationDTO firstDestination = createDestination("Sofia");
@@ -203,7 +203,7 @@ public class BookingServiceT {
     }
 
     @Test
-    void priceForSeniorRemainsUnchangedWithChildDuringRegularHours(){
+    void priceForSeniorWithChildDuringRegularHours(){
         UserDTO userDTO = createUser(PassengerType.OVER_60, 65);
         Mockito.when(userService.getOne(anyLong())).thenReturn(userDTO);
 
@@ -334,6 +334,54 @@ public class BookingServiceT {
         BigDecimal price = bookingService.calculatePrice(bookingDTO);
 
         Assertions.assertEquals(BigDecimal.valueOf(38).setScale(2), price);
+    }
+
+    @Test
+    void getPriceForMultiwayWithOneStopFamilyUserWithChildDuringPeakHours(){
+        UserDTO userDTO = createUser(PassengerType.FAMILY, 22);
+        Mockito.when(userService.getOne(anyLong())).thenReturn(userDTO);
+
+        DestinationDTO firstDestination = createDestination("Sofia");
+        Mockito.when(destinationService.getOne(firstDestination.getId())).thenReturn(firstDestination);
+        DestinationDTO secondDestination = createDestination("Burgas");
+        Mockito.when(destinationService.getOne(secondDestination.getId())).thenReturn(secondDestination);
+        DestinationDTO finalDestination = createDestination("Varna");
+        Mockito.when(destinationService.getOne(finalDestination.getId())).thenReturn(finalDestination);
+
+        BookingDTO bookingDTO = createBooking(
+                userDTO,
+                Boolean.TRUE,
+                LocalTime.of(18, 00),
+                firstDestination.getId(), secondDestination.getId(), finalDestination.getId()
+        );
+
+        BigDecimal price = bookingService.calculatePrice(bookingDTO);
+
+        Assertions.assertEquals(BigDecimal.valueOf(20).setScale(2), price);
+    }
+
+    @Test
+    void getPriceForMultiwayWithOneStopSeniorUserWithChildDuringPeakHours(){
+        UserDTO userDTO = createUser(PassengerType.OVER_60, 70);
+        Mockito.when(userService.getOne(anyLong())).thenReturn(userDTO);
+
+        DestinationDTO firstDestination = createDestination("Sofia");
+        Mockito.when(destinationService.getOne(firstDestination.getId())).thenReturn(firstDestination);
+        DestinationDTO secondDestination = createDestination("Burgas");
+        Mockito.when(destinationService.getOne(secondDestination.getId())).thenReturn(secondDestination);
+        DestinationDTO finalDestination = createDestination("Varna");
+        Mockito.when(destinationService.getOne(finalDestination.getId())).thenReturn(finalDestination);
+
+        BookingDTO bookingDTO = createBooking(
+                userDTO,
+                Boolean.TRUE,
+                LocalTime.of(18, 00),
+                firstDestination.getId(), secondDestination.getId(), finalDestination.getId()
+        );
+
+        BigDecimal price = bookingService.calculatePrice(bookingDTO);
+
+        Assertions.assertEquals(BigDecimal.valueOf(26.4).setScale(2), price);
     }
 
     @Test
