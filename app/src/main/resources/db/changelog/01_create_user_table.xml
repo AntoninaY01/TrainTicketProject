@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
 
-    <changeSet id="create_table_user" author="livanov">
+    <changeSet id="create_table_user" author="ayordanova">
         <createTable tableName="user">
             <column name="id" type="bigint">
                 <constraints primaryKey="true"/>
@@ -17,19 +17,19 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
 
         </createTable>
     </changeSet>
-    <changeSet id="user_sequence_generator" author="livanov">
+    <changeSet id="user_sequence_generator" author="ayordanova">
         <createSequence sequenceName="user_sequence_generator"
                         startValue="1000"
                         incrementBy="1"/>
     </changeSet>
 
-    <changeSet id="add_column_type_user_table" author="livanov">
+    <changeSet id="add_column_type_user_table" author="ayordanova">
         <addColumn tableName="user">
             <column name="type" type="varchar(255)"/>
         </addColumn>
     </changeSet>
 
-    <changeSet id="drop_column_passenger_type_user_table" author="livanov">
+    <changeSet id="drop_column_passenger_type_user_table" author="ayordanova">
         <dropColumn tableName="user" columnName="passenger_type"/>
     </changeSet>
 </databaseChangeLog>

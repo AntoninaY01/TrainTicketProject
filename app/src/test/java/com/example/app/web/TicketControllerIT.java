@@ -54,14 +54,14 @@ class TicketControllerIT {
     @BeforeEach
     void setup() {
         User user = new User();
-        user.setFirstName("AA");
-        user.setLastName("BB");
+        user.setFirstName("Test");
+        user.setLastName("Test1234");
         user.setAge(22);
         user.setType(PassengerType.NONE);
         userRepo.saveAndFlush(user);
 
         Destination destination1 = new Destination();
-        destination1.setName("CC");
+        destination1.setName("Montana");
         destinationRepo.saveAndFlush(destination1);
 
         createTicket(user, destination1);

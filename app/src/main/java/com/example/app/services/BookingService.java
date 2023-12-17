@@ -32,7 +32,7 @@ public class BookingService {
         Boolean withChild = bookingDTO.getWithChild();
         LocalTime time = bookingDTO.getLocalTime();
 
-        var basePrice = PRICE_BETWEEN_2_CITIES.multiply(BigDecimal.valueOf((destinationIds.size() - 1) * 2));
+        var basePrice = PRICE_BETWEEN_2_CITIES.multiply(BigDecimal.valueOf((destinationIds.size() - 1) * 4));
         var price = basePrice;
 
         if (!(time.isBefore((LocalTime.of(9, 30))) ||
