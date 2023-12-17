@@ -31,17 +31,14 @@ public class TicketService {
     }
 
     public Page<TicketDTO> getAll(Pageable pageable) {
-        log.debug("Request to get all TICKETS");
         return ticketRepo.findAll(pageable).map(ticketMapper::toDTO);
     }
 
     public TicketDTO getOne(Long id) {
-        log.debug("Request to get TICKET by ID: {}", id);
         return ticketMapper.toDTO(ticketRepo.findById(id).orElse(null));
     }
 
     public TicketDTO save(TicketDTO ticketDTO) {
-        log.debug("Request to save TICKET: {}", ticketDTO);
         if (ticketDTO.getId() != null) {
             throw new IllegalArgumentException();
         }
@@ -53,7 +50,6 @@ public class TicketService {
     }
 
     public TicketDTO update(TicketDTO ticketDTO) {
-        log.debug("Request to update TICKET: {}", ticketDTO);
         if (ticketDTO.getId() == null) {
             throw new IllegalArgumentException();
         }
@@ -75,9 +71,12 @@ public class TicketService {
     }
 
     public void cancel(Long id) {
-        log.debug("Request to delete TICKET with ID: {}", id);
         TicketDTO ticketDTO = this.getOne(id);
-        ticketDTO.setStatus(TicketStatus.CANCELED.toString());
+        ticketDTO.setStatus(TicketStatus.CANCELED.toString()); // use a string const instead of the enum
         ticketRepo.save(ticketMapper.toEntity(ticketDTO));
+    }
+
+    public void delete(Long id) {
+        ticketRepo.deleteById(id);
     }
 }

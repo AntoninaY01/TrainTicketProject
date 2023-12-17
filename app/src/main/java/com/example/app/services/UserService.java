@@ -21,17 +21,14 @@ public class UserService {
     }
 
     public Page<UserDTO> getAll(Pageable pageable) {
-        log.debug("Request to get all USERS");
         return userRepo.findAll(pageable).map(userMapper::toDTO);
     }
 
     public UserDTO getOne(Long id) {
-        log.debug("Request to get USER by ID: {}", id);
         return userMapper.toDTO(userRepo.findById(id).orElse(null));
     }
 
     public UserDTO save(UserDTO userDTO) {
-        log.debug("Request to save USER: {}", userDTO);
         if (userDTO.getId() != null) {
             throw new IllegalArgumentException();
         }
@@ -40,7 +37,6 @@ public class UserService {
     }
 
     public UserDTO update(UserDTO userDTO) {
-        log.debug("Request to update USER: {}", userDTO);
         if (userDTO.getId() == null) {
             throw new IllegalArgumentException();
         }
@@ -54,7 +50,6 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        log.debug("Request to delete USER with ID: {}", id);
         userRepo.deleteById(id);
     }
 }

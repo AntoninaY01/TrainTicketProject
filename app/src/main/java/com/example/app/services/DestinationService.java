@@ -21,17 +21,14 @@ public class DestinationService {
     }
 
     public Page<DestinationDTO> getAll(Pageable pageable) {
-        log.debug("Request to get all DESTINATIONS");
         return destinationRepo.findAll(pageable).map(destinationMapper::toDTO);
     }
 
     public DestinationDTO getOne(Long id) {
-        log.debug("Request to get DESTINATION by ID: {}", id);
         return destinationMapper.toDTO(destinationRepo.findById(id).orElse(null));
     }
 
     public DestinationDTO save(DestinationDTO destinationDTO) {
-        log.debug("Request to save DESTINATION: {}", destinationDTO);
         if (destinationDTO.getId() != null) {
             throw new IllegalArgumentException();
         }
@@ -40,7 +37,6 @@ public class DestinationService {
     }
 
     public DestinationDTO update(DestinationDTO destinationDTO) {
-        log.debug("Request to update DESTINATION: {}", destinationDTO);
         if (destinationDTO.getId() == null) {
             throw new IllegalArgumentException();
         }
@@ -54,7 +50,6 @@ public class DestinationService {
     }
 
     public void delete(Long id) {
-        log.debug("Request to delete DESTINATION with ID: {}", id);
         destinationRepo.deleteById(id);
     }
 }

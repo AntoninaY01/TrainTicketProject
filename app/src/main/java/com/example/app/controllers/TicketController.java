@@ -27,38 +27,32 @@ public class TicketController {
 
     @GetMapping
     public ResponseEntity<Page<TicketDTO>> getAll(Pageable pageable) {
-        log.debug("REST request to get all TICKETS sorted by {}, page number: {} and page size: {}",
-                pageable.getSort(), pageable.getPageNumber(), pageable.getPageSize());
         final var tickets = ticketService.getAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(tickets);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TicketDTO> getOne(@PathVariable Long id) {
-        log.debug("REST request to get TICKET by ID: {}", id);
         final var ticket = ticketService.getOne(id);
         return ResponseEntity.status(HttpStatus.OK).body(ticket);
     }
 
     @PostMapping
     public ResponseEntity<TicketDTO> save(@RequestBody TicketDTO ticketDTO) {
-        log.debug("REST request to save TICKET with content: {}", ticketDTO);
         final var savedTicket = ticketService.save(ticketDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTicket);
     }
 
     @PutMapping
     public ResponseEntity<TicketDTO> update(@RequestBody TicketDTO ticketDTO) {
-        log.debug("REST request to updated TICKET with ID: {} with content {}", ticketDTO.getId(), ticketDTO);
         final var updatedTicket = ticketService.update(ticketDTO);
         return ResponseEntity.status(HttpStatus.OK).body(updatedTicket);
     }
 
     @PutMapping("/cancel/{id}")
     public ResponseEntity<Void> cancel(@PathVariable Long id) {
-        log.debug("REST request to cancel TICKET with ID: {}", id);
         ticketService.cancel(id);
-        return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PostMapping("/checkPrice")
@@ -66,5 +60,11 @@ public class TicketController {
         return ResponseEntity.status(HttpStatus.OK).body(
                 bookingService.calculatePrice(bookingDTO)
         );
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        ticketService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
